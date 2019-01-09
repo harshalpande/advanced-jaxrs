@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Driver Class -->
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+
+		<!-- Driver URL and Path -->
+		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/AdvancedJaxRS</property>
+
+		<property name="connection.username">postgres</property>
+
+		<property name="connection.password">password</property>
+
+		<property name="connection.pool_size">1</property>
+
+		<!-- Set Dialect -->
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Configure Hibernate to use NO Second Level Cache provider -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property> 
+
+ 		<property name="javax.persistence.validation.mode">none</property>
+ 
+		<!-- Prints SQL Queries to Console TRUE/FALSE -->
+		<property name="show_sql">true</property>
+
+		<!-- Value create : creates everytime new Schema, update : updates to same 
+			table and schema present if not creates a new one -->
+		<property name="hbm2ddl.auto">update</property>
+
+		<!-- Name of Annotated Model Classes Here  -->
+		<mapping class="org.harshal.javabrains.jwt.model.KeyModel" />
+
+	</session-factory>
+</hibernate-configuration>
