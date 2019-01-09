@@ -9,7 +9,6 @@ import javax.persistence.Lob;
 
 @Entity
 public class KeyModel{
-
 	
 	@Id
 	@Column(name = "USER_NAME")

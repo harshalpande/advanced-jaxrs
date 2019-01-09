@@ -17,7 +17,7 @@
 		<property name="connection.pool_size">1</property>
 
 		<!-- Set Dialect -->
-		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
 
 		<property name="current_session_context_class">thread</property>
 
@@ -34,7 +34,7 @@
 		<property name="hbm2ddl.auto">update</property>
 
 		<!-- Name of Annotated Model Classes Here  -->
-		<mapping class="org.harshal.javabrains.jwt.model.KeyModel" />
+		<mapping resource ="org/harshal/javabrains/jwt/model/KeyModel.hbm.xml" />
 
 	</session-factory>
 </hibernate-configuration>

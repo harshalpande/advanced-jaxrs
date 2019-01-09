@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "org.harshal.javabrains.jwt.model.KeyModel" table = "KeyModel" >
+      
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      
+       <id name = "user" type = "java.lang.String" column = "user_name">
+        <!--  <generator class="native"/> -->
+      </id> 
+      
+      <property name = "key" column = "key" type = "java.lang.String"/>
+      <property name = "password" column = "password" type = "java.lang.String"/>
+      <property name = "token" column = "token" type = "java.lang.String"/>
+      <property name = "ttl" column = "ttl" type = "java.sql.Timestamp"/>
+      
+   </class>
+</hibernate-mapping>

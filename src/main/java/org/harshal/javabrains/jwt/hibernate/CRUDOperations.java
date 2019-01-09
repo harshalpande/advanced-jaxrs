@@ -6,19 +6,21 @@ import org.harshal.javabrains.jwt.model.KeyModel;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 public class CRUDOperations {
 
-	private static SessionFactory getSessionFactory() {
-		HBConnection hibernateConn = HBConnection.getInstance();
-		return hibernateConn.getHibernateSessionFactory();
-	}
-	
 	/**
 	 * @return Session object
 	 */
-	public Session getSession () {
-		SessionFactory factory = getSessionFactory();
+	public Session getSession() {
+		Configuration conf = new Configuration().configure();
+		conf.addClass(KeyModel.class);
+		ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();
+
+		SessionFactory factory = conf.buildSessionFactory(sr);
 		Session session = factory.openSession();
 		return session;
 	}

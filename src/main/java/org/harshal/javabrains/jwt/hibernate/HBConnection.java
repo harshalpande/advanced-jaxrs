@@ -1,9 +1,9 @@
 package org.harshal.javabrains.jwt.hibernate;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 public class HBConnection {
 
@@ -29,8 +29,8 @@ public class HBConnection {
 	public SessionFactory getHibernateSessionFactory() {
 		Configuration configuration = new Configuration();
 	    configuration.configure();
-	    ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
-	            configuration.getProperties()). buildServiceRegistry();
+	    ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+	            configuration.getProperties()).getBootstrapServiceRegistry();
 	    return configuration.buildSessionFactory(serviceRegistry);
 		
 		//deprecated method
