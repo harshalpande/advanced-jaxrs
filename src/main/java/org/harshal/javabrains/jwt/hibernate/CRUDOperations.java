@@ -2,8 +2,9 @@ package org.harshal.javabrains.jwt.hibernate;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import org.harshal.javabrains.jwt.model.KeyModel;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -50,20 +51,19 @@ public class CRUDOperations {
 		KeyModel model;
 		Session session = getSession();
 		session.beginTransaction();
-		
-		Query query = session.createQuery("from KeyModel where " + key + " = :str");
-		query.setEntity("str", value);
-		
-		List list = query.list();
-		
-		if (list.size() > 0) {
-			model = (KeyModel)list.get(0);
+
+		TypedQuery<KeyModel> query = session.createQuery("from KeyModel where " + key + " = :str", KeyModel.class);
+		query.setParameter("str", value);
+		List<KeyModel> resultList = query.getResultList();
+
+		if (resultList.size() > 0) {
+			model = resultList.get(0);
 		} else {
 			model = null;
 		}
 		session.getTransaction().commit();
 		session.close();
-		
+
 		return model;
 	}
 	

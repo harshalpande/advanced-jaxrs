@@ -1,7 +1,6 @@
 package org.harshal.javabrains.jwt.filter;
 
 import java.io.IOException;
-import java.security.Key;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -16,8 +15,8 @@ import javax.ws.rs.ext.Provider;
 import org.harshal.javabrains.jwt.hibernate.CRUDOperations;
 import org.harshal.javabrains.jwt.model.JwtTokenNeeded;
 import org.harshal.javabrains.jwt.model.KeyModel;
-import org.harshal.javabrains.jwt.operations.KeyFunctions;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 
 @Provider
@@ -34,25 +33,36 @@ public class JwtTokenNeededFilter implements ContainerRequestFilter{
 		try {
 			token = authorizationHeader.replace("Bearer", "").trim();
 			
-			KeyModel model = crudOperations.fetchOperation(token);
+			KeyModel model = crudOperations.fetchOperation("token", token);
 			
 			if (model != null && isValid(model)) {
-				Key key = KeyFunctions.getInstance().getKeyfromString(model.getKey());
-				Jwts.parser().setSigningKey(key).parseClaimsJwt(token);
-				System.out.println("#### Valid Token " + token);
+				String key = model.getKey();
+				Jws<Claims> jwsClaims = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
+				
+				/**
+				 * After getting claims successfully, just for second verification, validating
+				 * the 'sub' (subject) from the received jwsClaims-body with the one that was
+				 * assigned
+				 */
+				
+				if (jwsClaims.getBody().get("sub").equals(model.getUser())) {
+					System.out.println("#### Valid Token " + token);
+				} else {
+					throw new Exception();
+				}
 			} else {
 				throw new Exception();
 			}
 		} catch (Exception e) {
 			System.out.println("#### Invalid Token " + token);
-			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).build());
+			requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity("Invalid Request").build());
 		}
 	}
 
 	private boolean isValid(KeyModel model) {
 		
 		Timestamp timestamp = model.getTtl();
-		if (Timestamp.valueOf(LocalDateTime.now()).after(timestamp)) {
+		if (Timestamp.valueOf(LocalDateTime.now()).before(timestamp)) {
 			return true;
 		}
 		crudOperations.deleteKeyOperation(model.getUser());

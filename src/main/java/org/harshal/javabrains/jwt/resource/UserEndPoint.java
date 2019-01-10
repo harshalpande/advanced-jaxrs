@@ -1,6 +1,5 @@
 package org.harshal.javabrains.jwt.resource;
 
-import java.security.Key;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
@@ -55,7 +54,7 @@ public class UserEndPoint {
 		cal.add(Calendar.MINUTE, 15);
 		
 		KeyFunctions keyInstance = KeyFunctions.getInstance();
-		Key key = keyInstance.getKey();
+		String key = keyInstance.getKey();
 		
 		String jwtToken = Jwts.builder()
 							.setSubject(userId)
@@ -68,7 +67,7 @@ public class UserEndPoint {
 		KeyModel model = new KeyModel();
 		model.setUser(userId);
 		model.setPassword(password);
-		model.setKey(keyInstance.getKeyInString(key));
+		model.setKey(key);
 		model.setTtl(Timestamp.valueOf(LocalDateTime.now().plusMinutes(15)));
 		model.setToken(jwtToken);
 		crudOperations.updateOperation(model);

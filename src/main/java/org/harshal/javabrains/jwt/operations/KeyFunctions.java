@@ -1,11 +1,7 @@
 package org.harshal.javabrains.jwt.operations;
 
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-
 import javax.crypto.KeyGenerator;
-import javax.crypto.spec.SecretKeySpec;
 
 public class KeyFunctions {
 	
@@ -28,14 +24,16 @@ public class KeyFunctions {
 		return INSTANCE;
 	}
 	
-	public Key getKey() {
+	public String getKey() {
 		try {
-			return KeyGenerator.getInstance(ALGORITHM).generateKey();
+			return KeyGenerator.getInstance(ALGORITHM).generateKey().getEncoded().toString();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
+	
 
 	/**
 	 * <b>SecretKey to String:</b>
@@ -51,14 +49,14 @@ public class KeyFunctions {
 	 * </p>
 	 * 
 	 * @return String
-	 */
+	 *//*
 	public String getKeyInString(Key secretKey) {
 		String encodedKey = null;
 		encodedKey = Base64.getEncoder().encodeToString(secretKey.getEncoded());
 		return encodedKey;
 	}
 
-	/**
+	*//**
 	 * <b>String to SecretKey</b>
 	 * 
 	 * <u>decode the base64 encoded string</u>
@@ -73,10 +71,10 @@ public class KeyFunctions {
 	 * 
 	 * @param encodedKey
 	 * @return
-	 */
+	 *//*
 	public Key getKeyfromString(String encodedKey) {
 		byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
 		Key originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, ALGORITHM);
 		return originalKey;
-	}
+	}*/
 }
