@@ -16,7 +16,7 @@ public class AsymmetricTest {
 
 		AsymmetricClientOperation clientOps = new AsymmetricClientOperation();
 		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("harshal").append(":").append("harshal123");
+		stringBuffer.append("harshal.pande").append(":").append("harshal123");
 		value = clientOps.getEncryptedText(stringBuffer.toString());
 		
 		System.out.println(value);

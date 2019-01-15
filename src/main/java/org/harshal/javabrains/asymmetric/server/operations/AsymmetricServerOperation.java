@@ -18,7 +18,7 @@ public class AsymmetricServerOperation {
 
 	public static String ENCODING_TYPE = "UTF-8";
 	public static final String ALGORITHM_TYPE = "RSA";
-	public static final String PRIVATE_KEY_PATH = "KeyPair/privateKey";
+	public static final String PRIVATE_KEY_PATH = "C:/KeyPair/privateKey";
 
 	public AsymmetricServerOperation() throws NoSuchAlgorithmException, NoSuchPaddingException {
 		this.cipher = Cipher.getInstance("RSA");

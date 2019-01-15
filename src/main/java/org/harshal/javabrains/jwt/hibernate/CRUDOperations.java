@@ -67,6 +67,14 @@ public class CRUDOperations {
 		return model;
 	}
 	
+	private void createOperation(KeyModel keyModel) {
+		Session session = getSession();
+		session.beginTransaction();
+		session.save(keyModel);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 	
 	/**
 	 * Update Operation on KeyModel table
