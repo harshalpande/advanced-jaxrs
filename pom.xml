@@ -84,6 +84,15 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>KeyPair</directory>
+				<targetPath>KeyPair</targetPath>
+				<includes>
+					<include>privateKey</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 
 	<properties>

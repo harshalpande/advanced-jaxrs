@@ -57,6 +57,13 @@ public class MyApp extends Application {
 		returnSet.add(org.harshal.javabrains.jwt.resource.SomeEndpoints.class);
 		returnSet.add(org.harshal.javabrains.jwt.resource.UserEndPoint.class);
 		
+		// Asymmetric Key 
+		returnSet.add(org.harshal.javabrains.asymmetric.server.filter.AsymmetricRequestFilter.class);
+		returnSet.add(org.harshal.javabrains.asymmetric.server.operations.AsymmetricServerOperation.class);
+		returnSet.add(org.harshal.javabrains.asymmetric.server.model.PublicPrivate.class);
+		returnSet.add(org.harshal.javabrains.asymmetric.server.resources.MyResources.class);
+		returnSet.add(org.harshal.javabrains.asymmetric.server.utility.GenerateKeys.class);
+		
 		return returnSet;
 	}
 

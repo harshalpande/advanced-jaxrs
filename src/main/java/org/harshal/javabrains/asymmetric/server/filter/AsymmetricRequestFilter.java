@@ -7,47 +7,34 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation.Builder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
-import javax.xml.ws.WebServiceContext;
-
 import org.harshal.javabrains.asymmetric.server.model.PublicPrivate;
-import org.harshal.javabrains.asymmetric.server.operations.AsymmetricCryptography;
+import org.harshal.javabrains.asymmetric.server.operations.AsymmetricServerOperation;
 
 @Provider
 @PublicPrivate
-public class AsymmetricRequestFilter implements ContainerRequestFilter{
+public class AsymmetricRequestFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		MultivaluedMap<String, String> mapHeader = requestContext.getHeaders();
-		String URL = mapHeader.getFirst("URL");
-		String type = mapHeader.getFirst("TYPE");
-		
+		String credential = mapHeader.getFirst("CREDENTIAL");
+
 		try {
-			if (URL == null && type == null) {
+			if (credential != null) {
+				AsymmetricServerOperation serverOperation = new AsymmetricServerOperation();
+				credential = serverOperation.getDecryptedText(credential);
+				requestContext.setProperty("CREDENTIALS", credential);
+			} else {
 				Response response = Response.status(Status.BAD_REQUEST).entity("URL or TYPE is not found").build();
 				requestContext.abortWith(response);
 			}
-			AsymmetricCryptography asymmetricCryptography = new AsymmetricCryptography();
-			URL = asymmetricCryptography
-					.getDecryptedText(asymmetricCryptography.getPublicKey(AsymmetricCryptography.PUBLIC_KEY_PATH), URL);
-			
-			Client client = ClientBuilder.newClient();
-			
-			WebTarget webTarget = client.target(URL);
-			
-			requestContext.setRequestUri(webTarget.getUri());
-			
+
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {

@@ -11,7 +11,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
- * This utility class is just to create a Private Key and Public Key pair to encrypt and decrypt a text
+ * This utility class is just to create a Private Key and Public Key pair to
+ * encrypt and decrypt a text
  * 
  * @author pandehar
  */
@@ -50,7 +51,7 @@ public class GenerateKeys {
 		fos.flush();
 		fos.close();
 	}
-
+	
 	public static void main(String[] args) {
 		GenerateKeys gk;
 		try {
